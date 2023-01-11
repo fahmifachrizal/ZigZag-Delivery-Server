@@ -2,40 +2,38 @@
 const midtransClient = require('midtrans-client');
 
 class Controller {
-  static async getPayment(req, res, next) {
+  static async generatePayment(req, res, next) {
     try {
 
-        // let customer = User.findByPk(req.user.id)
-        let core = new midtransClient.CoreApi({
-          isProduction : false,
-          serverKey : process.env.MIDTRANS_SERVER_KEY,
-          clientKey : process.env.MIDTRANS_CLIENT_KEY
-        });
+      let snap = new midtransClient.Snap({
+        // Set to true if you want Production Environment (accept real transaction).
+        isProduction : false,
+        serverKey : process.env.MIDTRANS_SERVER_KEY
+      });
 
-        let parameter = {
-          "payment_type": "gopay",
+      let parameter = {
           "transaction_details": {
-            "gross_amount": 12145,
-            "order_id": new Date().getTime(),
+              "order_id": new Date(),
+              "gross_amount": 10000
           },
-          "gopay": {
-            "enable_callback": false,                // optional
-            "callback_url": "someapps://callback"   // optional
+          "credit_card":{
+              "secure" : true
+          },
+          "customer_details": {
+              "first_name": "budi",
+              "last_name": "pratama",
+              "email": "budi.pra@example.com",
+              "phone": "08111222333"
           }
-        };
+      };
+      
+      snap.createTransaction(parameter)
+      .then((transaction)=>{
+        // transaction token
+        let transactionToken = transaction.token;
+        res.status(201).json({transactionToken})
+    })
 
-        core.charge(parameter)
-        .then((chargeResponse)=>{
-          res.status(201).json(chargeResponse)
-          // console.log(chargeResponse);
-        });
-
-
-        // let token  = await snap.createTransaction(parameter)
-
-        // await Payment.create({userId:req.user.id, itemId:1, orderId:order_id, isPayment:false})
-        //     console.log(token)
-        //     res.status(200).json({token, orderId:order_id})
     } catch (error) {
       console.log(error, 'paymentttt')
       next()
