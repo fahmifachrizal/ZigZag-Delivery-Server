@@ -1,6 +1,10 @@
 const express = require('express')
 const route = express()
 
+route.get('/', (req, res, next) => {
+  console.log('Server is running')
+})
+
 const routeUser = require('./routeUser')
 const routePayment = require('./routePayment')
 // const routeLog = require('./routeLog')

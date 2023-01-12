@@ -18,12 +18,49 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Package.init({
-    type: DataTypes.STRING,
-    note: DataTypes.STRING,
-    dimension: DataTypes.INTEGER,
-    UserId: DataTypes.INTEGER,
-    PaymentId: DataTypes.INTEGER,
-    DeliveryId: DataTypes.INTEGER
+    type: { 
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Package type is required' },
+        notEmpty: { msg: 'Package type is required' },
+      }
+    },
+    note: { 
+      type:DataTypes.STRING,
+    },
+    dimension: { 
+      type:DataTypes.FLOAT,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Package dimension is required' },
+        notEmpty: { msg: 'Package dimension is required' },
+      }
+    },
+    UserId: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'UserId is required' },
+        notEmpty: { msg: 'UserId is required' },
+      }
+    },
+    PaymentId: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'PaymentId is required' },
+        notEmpty: { msg: 'PaymentId is required' },
+      }
+    },
+    DeliveryId: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'DeliveryId is required' },
+        notEmpty: { msg: 'DeliveryId is required' },
+      }
+    },
   }, {
     sequelize,
     modelName: 'Package',

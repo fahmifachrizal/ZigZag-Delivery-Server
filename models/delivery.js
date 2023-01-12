@@ -15,9 +15,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Delivery.init({
-    status: DataTypes.STRING,
-    lon: DataTypes.INTEGER,
-    lat: DataTypes.INTEGER
+    status: { 
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Payment status is required' },
+        notEmpty: { msg: 'Payment status is required' },
+      }
+    },
+    lon: { 
+      type:DataTypes.FLOAT,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Longitude is required' },
+        notEmpty: { msg: 'Longitude is required' },
+      }
+    },
+    lat: { 
+      type:DataTypes.FLOAT,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Latitude is required' },
+        notEmpty: { msg: 'Latitude is required' },
+      }
+    },
+    duration: { 
+      type:DataTypes.INTEGER
+    },
   }, {
     sequelize,
     modelName: 'Delivery',

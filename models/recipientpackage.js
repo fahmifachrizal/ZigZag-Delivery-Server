@@ -16,8 +16,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   RecipientPackage.init({
-    RecipientId: DataTypes.INTEGER,
-    PackageId: DataTypes.INTEGER
+    RecipientId: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'RecipientId is required' },
+        notEmpty: { msg: 'RecipientId is required' },
+      }
+    },
+    PackageId: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'PackageId is required' },
+        notEmpty: { msg: 'PackageId is required' },
+      }
+    },
   }, {
     sequelize,
     modelName: 'RecipientPackage',

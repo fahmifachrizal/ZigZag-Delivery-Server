@@ -1,8 +1,30 @@
-// const { Food, User, Log } = require('../models')
+const { Delivery, Payment, Package } = require('../models')
 const midtransClient = require('midtrans-client');
 
 class Controller {
-  static async generatePayment(req, res, next) {
+  static async createPayment(req, res, next) {
+    try {
+      // console.log(req.body)
+      // const UserId = req.user.id
+      // validasi input
+      const { lon, lat, duration } = req.body
+      const { paymentAmount, paymentIdentifier } = req.body
+      const dataDelivery = await Delivery.create({status:'Waiting', lon, lat, duration})
+      const dataPayment = await Payment.create({status:'Waiting', amount:paymentAmount, identifier:paymentIdentifier})
+
+      const { type, note, dimension } = req.body
+      console.log({ type, note, dimension, UserId:1, PaymentId:dataPayment.id, DeliveryId:dataDelivery.id })
+      const dataPackage = await Package.create({ type, note, dimension, UserId:1, PaymentId:dataPayment.id, DeliveryId:dataDelivery.id })
+      
+      console.log(dataPackage)
+      res.status(201).json({ statusCode: 201, message: 'New record has been created', data:dataPackage })
+    } catch (error) {
+      console.log(error)
+      // res.status(500).json({ statusCode: 500, error })
+    }
+  }
+
+  static async handlePayment(req, res, next) {
     try {
 
       let snap = new midtransClient.Snap({
@@ -35,8 +57,7 @@ class Controller {
     })
 
     } catch (error) {
-      console.log(error, 'paymentttt')
-      next()
+      next(error)
     }
   }
 }

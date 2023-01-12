@@ -15,10 +15,30 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Payment.init({
-    status: DataTypes.STRING,
-    amount: {
-      type: DataTypes.INTEGER
-    }
+    status: { 
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Payment status is required' },
+        notEmpty: { msg: 'Payment status is required' },
+      }
+    },
+    amount: { 
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Price amount is required' },
+        notEmpty: { msg: 'Price amount is required' },
+      }
+    },
+    identifier: { 
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull: { msg: 'Payment identifier is required' },
+        notEmpty: { msg: 'Payment identifier is required' },
+      }
+    },
   }, {
     sequelize,
     modelName: 'Payment',

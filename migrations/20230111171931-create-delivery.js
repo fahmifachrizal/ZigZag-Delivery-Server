@@ -19,6 +19,9 @@ module.exports = {
       lat: {
         type: Sequelize.FLOAT
       },
+      duration: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
